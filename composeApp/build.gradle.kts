@@ -24,7 +24,8 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+        val wasmJsMain by getting
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -34,6 +35,12 @@ kotlin {
             implementation(compose.components.resources)
             implementation(projects.shared)
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+        }
+        wasmJsMain.dependencies {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
