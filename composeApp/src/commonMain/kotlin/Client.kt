@@ -3,7 +3,9 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 object Client {
@@ -29,11 +31,19 @@ object Client {
 
     suspend fun selected(userName: String, card: Card) {
         println("calling post server")
-        val response: HttpResponse = httpClient.post(BASE_URL) {
+        val responseIgnoreMe: HttpResponse = httpClient.post(BASE_URL) {
             setBody("my personal body content")
-            // Configure request parameters exposed by HttpRequestBuilder
+        }
+        println(responseIgnoreMe)
+
+        val response: HttpResponse = httpClient.post(BASE_URL) {
+            contentType(ContentType.Application.Json)
+            setBody(UserSelection(userName, card.value))
         }
         println(response)
     }
 
 }
+
+@Serializable
+data class UserSelection(val userName: String, val selection: String)
