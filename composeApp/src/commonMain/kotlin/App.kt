@@ -12,31 +12,50 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
     MaterialTheme {
-        var selectedCard: Card? by remember { mutableStateOf(null) }
-        LaunchedEffect(Unit) {
-            var greeting = Client.fetchGreetings()
-            println(greeting)
-        }
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text(
-                selectionText(selectedCard),
-                style = TextStyle(fontSize = 20.sp),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
-            )
+        var userName by remember { mutableStateOf("") }
+        Column {
+            Greetings(name = userName, onNameChanged = { userName = it })
 
-            Row(modifier = Modifier.padding(start = 20.dp, top = 10.dp)) {
 
-                cards().forEach {
-                    Button(modifier = Modifier.padding(all = 10.dp),
-                        onClick = { selectedCard = it }) {
-                        card(it)
+            var selectedCard: Card? by remember { mutableStateOf(null) }
+            val coroutineScope = rememberCoroutineScope()
+            Column(modifier = Modifier.padding(20.dp)) {
+                Text(
+                    selectionText(selectedCard),
+                    style = TextStyle(fontSize = 20.sp),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+                )
+
+                Row(modifier = Modifier.padding(start = 20.dp, top = 10.dp)) {
+                    cards().forEach {
+                        Button(modifier = Modifier.padding(all = 10.dp),
+                            onClick = {
+                                selectedCard = it
+
+                                coroutineScope.launch {
+                                    try {
+                                        withContext(Dispatchers.Default) {
+                                            // Call the suspended function within the IO dispatcher
+                                            Client.selected(userName, it)
+                                        }
+                                    } catch (e: Exception) {
+                                        // Handle exceptions (e.g., show an error message)
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }) {
+                            card(it)
+                        }
                     }
                 }
             }
