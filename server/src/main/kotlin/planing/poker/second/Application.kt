@@ -3,6 +3,7 @@ package planing.poker.second
 
 import Greeting
 import SERVER_PORT
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -20,6 +21,10 @@ fun main() {
 fun Application.module() {
     install(CORS) {
         anyHost()
+        allowMethod(HttpMethod.Post)
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Options)
+        allowHeader(HttpHeaders.ContentType)
     }
     routing {
         get("/") {

@@ -30,12 +30,6 @@ object Client {
     }
 
     suspend fun selected(userName: String, card: Card) {
-        println("calling post server")
-        val responseIgnoreMe: HttpResponse = httpClient.post(BASE_URL) {
-            setBody("my personal body content")
-        }
-        println(responseIgnoreMe)
-
         val response: HttpResponse = httpClient.post(BASE_URL) {
             contentType(ContentType.Application.Json)
             setBody(UserSelection(userName, card.value))
