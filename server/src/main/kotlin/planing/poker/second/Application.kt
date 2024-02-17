@@ -4,13 +4,17 @@ package planing.poker.second
 import Greeting
 import SERVER_PORT
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 
 fun main() {
@@ -19,6 +23,12 @@ fun main() {
 }
 
 fun Application.module() {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
     install(CORS) {
         anyHost()
         allowMethod(HttpMethod.Post)
@@ -31,9 +41,15 @@ fun Application.module() {
             call.respondText("Ktor: ${Greeting().greet()}")
         }
         post("/") {
-            val receiveText = call.receiveText()
-            println(receiveText)
-            call.respondText("K-Post")
+            val userSelection = call.receive<UserSelection>()
+            call.respondText(
+                "${userSelection.userName} selected ${userSelection.selection}",
+                status = HttpStatusCode.OK
+            )
         }
     }
 }
+
+
+@Serializable
+data class UserSelection(val userName: String, val selection: String)

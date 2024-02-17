@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
+    kotlin("plugin.serialization") version "1.9.21"
     application
 }
 

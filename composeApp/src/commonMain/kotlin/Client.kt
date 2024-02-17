@@ -1,5 +1,4 @@
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -17,11 +16,6 @@ object Client {
         }
     }
 
-    suspend fun fetchGreetings(): String {
-        var body = httpClient.get(BASE_URL).body<String>()
-        return body
-    }
-
     private fun createJson() = Json {
         isLenient = true
         ignoreUnknownKeys = true
@@ -36,7 +30,6 @@ object Client {
         }
         println(response)
     }
-
 }
 
 @Serializable
