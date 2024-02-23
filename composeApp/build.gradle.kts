@@ -35,6 +35,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(projects.shared)
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+            implementation(libs.ktor.client.websockets)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.serialization.kotlinx.json)

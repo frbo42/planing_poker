@@ -13,13 +13,14 @@ application {
 }
 
 dependencies {
-    implementation(projects.shared)
-    implementation(libs.logback)
-    implementation(libs.ktor.server.core)
-    implementation(libs.ktor.server.netty)
-    implementation(libs.ktor.server.cors)
-    implementation(libs.ktor.server.content.negotiation.jvm)
     implementation(libs.ktor.serialization.kotlinx.json.jvm)
-    testImplementation(libs.ktor.server.tests)
+    implementation(libs.ktor.server.content.negotiation.jvm)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.cors)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.websockets)
+    implementation(libs.logback)
+    implementation(projects.shared)
     testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.ktor.server.tests)
 }

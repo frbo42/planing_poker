@@ -25,9 +25,13 @@ fun App() {
         Column {
             Greetings(name = userName, onNameChanged = { userName = it })
 
-
             var selectedCard: Card? by remember { mutableStateOf(null) }
             val coroutineScope = rememberCoroutineScope()
+
+            coroutineScope.launch {
+                WebSocketClient.chat()
+            }
+
             Column(modifier = Modifier.padding(20.dp)) {
                 Text(
                     selectionText(selectedCard),
