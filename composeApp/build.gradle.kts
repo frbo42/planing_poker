@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
 }
-
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
@@ -45,6 +44,8 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.ktor.client.apache5)
+            implementation(libs.ktor.client.core)
         }
     }
 }

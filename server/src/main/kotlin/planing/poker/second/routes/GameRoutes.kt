@@ -43,6 +43,7 @@ fun Route.socketRoutes() {
                 val textWithUserName = "[${thisConnection.name}]: $receivedText"
 
                 connections.forEach {
+                    println("send to $it")
                     it.session.send(textWithUserName)
                 }
             }

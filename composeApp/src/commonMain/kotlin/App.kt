@@ -29,7 +29,7 @@ fun App() {
             val coroutineScope = rememberCoroutineScope()
 
             coroutineScope.launch {
-                WebSocketClient.chat()
+                chat()
             }
 
             Column(modifier = Modifier.padding(20.dp)) {
